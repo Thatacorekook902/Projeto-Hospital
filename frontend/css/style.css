@@ -1,0 +1,94 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  /* Fundo degradê combinando roxo, azul e vermelho */
+  background: linear-gradient(
+    135deg,
+    #6d28d9, /* Roxo */
+    #2563eb, /* Azul */
+    #e11d48  /* Vermelho */
+  );
+}
+
+.container {
+  width: 360px;
+  padding: 30px 25px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border: 3px solid #6d28d9;
+
+  /* Alinhamento central de todos os elementos filhos */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* LOGO PEQUENA E CENTRALIZADA */
+.logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+/* TÍTULO */
+h2 {
+  color: #6d28d9;
+  font-size: 26px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* CAMPOS DE ENTRADA */
+input {
+  width: 100%;
+  height: 46px;
+  margin-bottom: 15px;
+  padding: 10px 15px;
+  border: 2px solid #7c3aed;
+  border-radius: 10px;
+  font-size: 15px;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+input:focus {
+  border-color: #2563eb;
+}
+
+/* BOTÃO DE ENTRADA */
+button {
+  width: 100%;
+  height: 46px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    #6d28d9,
+    #2563eb,
+    #e11d48
+  );
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.02);
+  opacity: 0.95;
+}
