@@ -1,33 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema Hospitalar</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<div class="container">
-  <h2>🏥 Sistema Hospitalar</h2>
-  <input id="usuario" placeholder="Usuário">
-  <input id="senha" type="password" placeholder="Senha">
-  <button onclick="login()">Entrar</button>
-</div>
 
-<script>
-function login() {
-  fetch("/login", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      usuario: usuario.value,
-      senha: senha.value
-    })
-  })
-  .then(r => r.json())
-  .then(data => {
-    if(data.tipo === "triagem") location.href = "triagem.html";
-    if(data.tipo === "medico") location.href = "medico.html";
-    if(data.tipo === "atendimento") location.href = "atendimento.html";
-  });
-}
-</script>
+<body>
+
+  <div class="container">
+
+    <!-- Logo -->
+    <img src="logo.png" alt="Logo do Sistema Hospitalar" class="logo">
+
+    <!-- Título -->
+    <h2>🏥 Sistema Hospitalar</h2>
+
+    <!-- Campo de usuário -->
+    <input
+      id="usuario"
+      type="text"
+      placeholder="Usuário"
+    >
+
+    <!-- Campo de senha -->
+    <input
+      id="senha"
+      type="password"
+      placeholder="Senha"
+    >
+
+    <!-- Botão -->
+    <button onclick="login()">Entrar</button>
+
+  </div>
+
+  <script>
+    function login() {
+
+      const usuario = document.getElementById("usuario").value;
+      const senha = document.getElementById("senha").value;
+
+      fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          usuario: usuario,
+          senha: senha
+        })
+      })
+
+      .then(r => r.json())
+
+      .then(data => {
+
+        if (data.tipo === "triagem") {
+          location.href = "triagem.html";
+        }
+
+        if (data.tipo === "medico") {
+          location.href = "medico.html";
+        }
+
+        if (data.tipo === "atendimento") {
+          location.href = "atendimento.html";
+        }
+
+      })
+
+      .catch(error => {
+        console.error("Erro ao realizar login:", error);
+      });
+
+    }
+  </script>
+
 </body>
 </html>
