@@ -1,44 +1,136 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
+
 <head>
-  <link rel="stylesheet" href="css/index.css">
+  <meta charset="UTF-8">
+  <title>Sistema Hospitalar</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+  body {
+  font-family: Arial, sans-serif;
+  background: #DCEEFF;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 90%;
+  max-width: 450px;
+  background: white;
+  padding: 35px;
+  border-radius: 18px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+  text-align: center;
+}
+
+/* Regra unificada para a logo circular perfeita */
+.logo, .container img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 15px auto;
+ 
+  /* Amplia a imagem interna para cortar as bordas brancas quadradas */
+  transform: scale(1.35);
+}
+
+h2 {
+  color: #2C5D8A;
+  margin-bottom: 25px;
+}
+.slogan {
+  color: #2C5D8A;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  margin-bottom: 25px;
+}
+input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px;
+  margin-top: 12px;
+  border: 1px solid #C8D8E8;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 20px;
+  background: #5B9BD5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #468CC7;
+}
+  </style>
 </head>
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <img src="logo.png" alt="Logo Pony Med" class="logo">
+    <!-- COLOQUE SUA IMAGEM COMO logo.png -->
+    <img src="foto1.png" alt="Logo Hospital do Snoopy" class="logo">
 
-  <h2>🏥Pony Med</h2>
+    <h2> Hospital do Snoopy</h2>
+<p class="slogan">Cuidando com Afeto e Alegria</p>
+    <input id="usuario" placeholder="Usuário">
 
-  <p class="mensagem">
-  Cuidando da saúde e dos pequenos sorrisos! </p>
+    <input
+      id="senha"
+      type="password"
+      placeholder="Senha">
 
-  <input id="usuario" placeholder="Usuário">
-  <input id="senha" type="password" placeholder="Senha">
+    <button onclick="login()">Entrar</button>
 
-  <button onclick="login()">Entrar</button>
+  </div>
 
-</div>
+  <script>
+    function login() {
 
-<script>
-fetch("/login", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      usuario: usuario.value,
-      senha: senha.value
-    })
-  })
-  .then(r => r.json())
-  .then(data => {
-    if(data.tipo === "triagem") location.href = "triagem.html";
-    if(data.tipo === "medico") location.href = "medico.html";
-    if(data.tipo === "atendimento") location.href = "atendimento.html";
-  });
-}
-</script>
+      fetch("/login", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          usuario: usuario.value,
+          senha: senha.value
+        })
+      })
+
+      .then(r => r.json())
+
+      .then(data => {
+
+        if (data.tipo === "triagem")
+            location.href = "triagem.html";
+
+        if (data.tipo === "medico")
+          location.href = "medico.html";
+
+        if (data.tipo === "atendimento")
+          location.href = "atendimento.html";
+
+      });
+    }
+  </script>
 
 </body>
 </html>
