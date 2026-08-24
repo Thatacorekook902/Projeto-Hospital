@@ -12,140 +12,493 @@ app.use(express.static(path.join(__dirname, "../frontend")));
 
 const DB_FILE = path.join(__dirname, "db.json");
 
+// ===============================
+// BANCO DE DADOS
+// ===============================
+
+function criarDBInicial() {
+  return {
+    usuarios: [],
+    pacientes: [],
+    triagens: [],
+    consultas: [],
+    tv_chamada: null,
+    tv_historico: []
+  };
+}
+
 function readDB() {
   if (!fs.existsSync(DB_FILE)) {
-    return {
-      usuarios: [],
-      pacientes: [],
-      triagens: [],
-      consultas: [],
-      tv_chamada: null,
-      tv_historico: []
-    };
+    const db = criarDBInicial();
+    writeDB(db);
+    return db;
   }
-  const db = JSON.parse(fs.readFileSync(DB_FILE));
-  if (!db.tv_chamada) db.tv_chamada = null;
-  if (!db.tv_historico) db.tv_historico = [];
-  return db;
+
+  try {
+    const conteudo = fs.readFileSync(DB_FILE, "utf8");
+
+    if (!conteudo.trim()) {
+      const db = criarDBInicial();
+      writeDB(db);
+      return db;
+    }
+
+    const db = JSON.parse(conteudo);
+
+    // Garante que todas as propriedades existam
+    if (!db.usuarios) db.usuarios = [];
+    if (!db.pacientes) db.pacientes = [];
+    if (!db.triagens) db.triagens = [];
+    if (!db.consultas) db.consultas = [];
+    if (!db.tv_chamada) db.tv_chamada = null;
+    if (!db.tv_historico) db.tv_historico = [];
+
+    return db;
+
+  } catch (erro) {
+    console.error("Erro ao ler db.json:", erro);
+
+    throw new Error("Banco de dados inválido ou corrompido.");
+  }
 }
 
 function writeDB(data) {
-  fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
+  try {
+    fs.writeFileSync(
+      DB_FILE,
+      JSON.stringify(data, null, 2),
+      "utf8"
+    );
+  } catch (erro) {
+    console.error("Erro ao salvar db.json:", erro);
+    throw new Error("Não foi possível salvar o banco de dados.");
+  }
 }
 
+// ===============================
 // LOGIN
+// ===============================
+
 app.post("/login", (req, res) => {
-  const db = readDB();
+  try {
+    const db = readDB();
 
-  const user = db.usuarios.find(u =>
-    u.usuario === req.body.usuario &&
-    u.senha === req.body.senha
-  );
+    const { usuario, senha } = req.body;
 
-  if (!user) {
-    return res.status(401).json({ erro: "Login inválido" });
+    if (!usuario || !senha) {
+      return res.status(400).json({
+        erro: "Usuário e senha são obrigatórios."
+      });
+    }
+
+    const user = db.usuarios.find(
+      u =>
+        u.usuario === usuario &&
+        u.senha === senha
+    );
+
+    if (!user) {
+      return res.status(401).json({
+        erro: "Login inválido"
+      });
+    }
+
+    res.json(user);
+
+  } catch (erro) {
+    console.error(erro);
+
+    res.status(500).json({
+      erro: "Erro interno no servidor."
+    });
   }
-
-  res.json(user);
 });
 
-// ATENDIMENTO - cadastrar paciente
+// ===============================
+// ATENDIMENTO - CADASTRAR PACIENTE
+// ===============================
+
 app.post("/atendimento", (req, res) => {
-  const db = readDB();
+  try {
+    const db = readDB();
 
-  const paciente = {
-    id: Date.now(),
-    nome: req.body.nome,
-    cpf: req.body.cpf,
-    tipo: req.body.tipo,
-    status: "triagem",
-    createdAt: new Date()
-  };
+    const { nome, cpf, tipo } = req.body;
 
-  db.pacientes.push(paciente);
-  writeDB(db);
+    if (!nome) {
+      return res.status(400).json({
+        erro: "Nome do paciente é obrigatório."
+      });
+    }
 
-  res.json(paciente);
-});
+    const paciente = {
+      id: Date.now(),
+      nome,
+      cpf: cpf || "",
+      tipo: tipo || "normal",
+      status: "triagem",
+      createdAt: new Date()
+    };
 
-// LISTAR PACIENTES (triagem busca quem foi cadastrado no atendimento)
-app.get("/pacientes", (req, res) => {
-  const db = readDB();
-  res.json(db.pacientes);
-});
+    db.pacientes.push(paciente);
 
-// TRIAGEM
-app.post("/triagem", (req, res) => {
-  const db = readDB();
+    writeDB(db);
 
-  let risco = req.body.risco;
+    res.status(201).json(paciente);
 
-  if (req.body.temperatura >= 39) {
-    risco = "vermelho";
-  } else if (req.body.temperatura >= 38) {
-    risco = "amarelo";
-  } else if (!risco) {
-    risco = "verde";
+  } catch (erro) {
+    console.error(erro);
+
+    res.status(500).json({
+      erro: "Erro ao cadastrar paciente."
+    });
   }
-
-  const triagem = {
-    id: Date.now(),
-    nome: req.body.nome,
-    sintoma: req.body.sintoma,
-    temperatura: req.body.temperatura,
-    alergia: req.body.alergia,
-    observacao: req.body.observacao,
-    risco,
-    status: "aguardando_medico",
-    createdAt: new Date()
-  };
-
-  db.triagens.push(triagem);
-  writeDB(db);
-
-  res.json(triagem);
 });
 
+// ===============================
+// LISTAR PACIENTES
+// ===============================
+
+app.get("/pacientes", (req, res) => {
+  try {
+    const db = readDB();
+
+    res.json(db.pacientes);
+
+  } catch (erro) {
+    console.error(erro);
+
+    res.status(500).json({
+      erro: "Erro ao buscar pacientes."
+    });
+  }
+});
+
+// ===============================
+// BUSCAR PACIENTE POR ID
+// ===============================
+
+app.get("/pacientes/:id", (req, res) => {
+  try {
+    const db = readDB();
+
+    const id = Number(req.params.id);
+
+    const paciente = db.pacientes.find(
+      p => p.id === id
+    );
+
+    if (!paciente) {
+      return res.status(404).json({
+        erro: "Paciente não encontrado."
+      });
+    }
+
+    res.json(paciente);
+
+  } catch (erro) {
+    console.error(erro);
+
+    res.status(500).json({
+      erro: "Erro ao buscar paciente."
+    });
+  }
+});
+
+// ===============================
+// TRIAGEM
+// ===============================
+
+app.post("/triagem", (req, res) => {
+  try {
+    const db = readDB();
+
+    const {
+      pacienteId,
+      nome,
+      sintoma,
+      temperatura,
+      alergia,
+      observacao,
+      risco: riscoEnviado
+    } = req.body;
+
+    // Converte temperatura para número
+    const temperaturaNumerica =
+      temperatura !== undefined &&
+      temperatura !== null &&
+      temperatura !== ""
+        ? Number(temperatura)
+        : null;
+
+    if (
+      temperatura !== undefined &&
+      temperatura !== null &&
+      temperatura !== "" &&
+      Number.isNaN(temperaturaNumerica)
+    ) {
+      return res.status(400).json({
+        erro: "Temperatura inválida."
+      });
+    }
+
+    // ===============================
+    // ENCONTRA O PACIENTE
+    // ===============================
+
+    let paciente = null;
+
+    if (pacienteId) {
+      paciente = db.pacientes.find(
+        p => p.id === Number(pacienteId)
+      );
+
+      if (!paciente) {
+        return res.status(404).json({
+          erro: "Paciente não encontrado."
+        });
+      }
+    }
+
+    // ===============================
+    // DEFINIÇÃO DO RISCO
+    // ===============================
+
+    let risco = riscoEnviado;
+
+    if (
+      temperaturaNumerica !== null &&
+      temperaturaNumerica >= 39
+    ) {
+      risco = "vermelho";
+
+    } else if (
+      temperaturaNumerica !== null &&
+      temperaturaNumerica >= 38
+    ) {
+      risco = "amarelo";
+
+    } else if (!risco) {
+      risco = "verde";
+    }
+
+    // ===============================
+    // CRIA TRIAGEM
+    // ===============================
+
+    const triagem = {
+      id: Date.now(),
+      pacienteId: paciente
+        ? paciente.id
+        : null,
+
+      nome: paciente
+        ? paciente.nome
+        : nome,
+
+      sintoma: sintoma || "",
+      temperatura: temperaturaNumerica,
+      alergia: alergia || "",
+      observacao: observacao || "",
+      risco,
+
+      status: "aguardando_medico",
+
+      createdAt: new Date()
+    };
+
+    db.triagens.push(triagem);
+
+    // ===============================
+    // ATUALIZA STATUS DO PACIENTE
+    // ===============================
+
+    if (paciente) {
+      paciente.status = "aguardando_medico";
+    }
+
+    writeDB(db);
+
+    res.status(201).json(triagem);
+
+  } catch (erro) {
+    console.error(erro);
+
+    res.status(500).json({
+      erro: "Erro ao realizar triagem."
+    });
+  }
+});
+
+// ===============================
 // LISTAR TRIAGENS
+// ===============================
+
 app.get("/triagens", (req, res) => {
-  const db = readDB();
-  res.json(db.triagens);
+  try {
+    const db = readDB();
+
+    res.json(db.triagens);
+
+  } catch (erro) {
+    console.error(erro);
+
+    res.status(500).json({
+      erro: "Erro ao buscar triagens."
+    });
+  }
 });
 
-// ============ MÍDIA INDOOR - TV ============
+// ===============================
+// BUSCAR TRIAGEM POR ID
+// ===============================
 
-// Função criada para enviar a chamada do paciente para a tela da TV.
-// Serve para triagem chamar o paciente no guichê e para o médico chamar no consultório.
+app.get("/triagens/:id", (req, res) => {
+  try {
+    const db = readDB();
+
+    const id = Number(req.params.id);
+
+    const triagem = db.triagens.find(
+      t => t.id === id
+    );
+
+    if (!triagem) {
+      return res.status(404).json({
+        erro: "Triagem não encontrada."
+      });
+    }
+
+    res.json(triagem);
+
+  } catch (erro) {
+    console.error(erro);
+
+    res.status(500).json({
+      erro: "Erro ao buscar triagem."
+    });
+  }
+});
+
+// ==================================================
+// MÍDIA INDOOR - TV
+// ==================================================
+
+// ===============================
+// CHAMAR PACIENTE NA TV
+// ===============================
+
 app.post("/tv/chamar", (req, res) => {
-  const db = readDB();
+  try {
+    const db = readDB();
 
-  const chamada = {
-    id: Date.now().toString(),
-    localTipo: req.body.localTipo,
-    localNumero: req.body.localNumero,
-    paciente: req.body.paciente,
-    hora: new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
-  };
+    const {
+      localTipo,
+      localNumero,
+      paciente
+    } = req.body;
 
-  db.tv_chamada = chamada;
-  db.tv_historico.unshift(chamada);
-  if (db.tv_historico.length > 5) db.tv_historico.pop();
+    if (!paciente) {
+      return res.status(400).json({
+        erro: "Paciente é obrigatório."
+      });
+    }
 
-  writeDB(db);
-  res.json(chamada);
+    const chamada = {
+      id: Date.now().toString(),
+
+      localTipo:
+        localTipo || "guiche",
+
+      localNumero:
+        localNumero || "1",
+
+      paciente,
+
+      hora: new Date().toLocaleTimeString(
+        "pt-BR",
+        {
+          hour: "2-digit",
+          minute: "2-digit"
+        }
+      )
+    };
+
+    // Chamada atual
+    db.tv_chamada = chamada;
+
+    // Adiciona ao histórico
+    db.tv_historico.unshift(chamada);
+
+    // Mantém somente as 5 últimas chamadas
+    if (db.tv_historico.length > 5) {
+      db.tv_historico.pop();
+    }
+
+    writeDB(db);
+
+    res.json(chamada);
+
+  } catch (erro) {
+    console.error(erro);
+
+    res.status(500).json({
+      erro: "Erro ao chamar paciente na TV."
+    });
+  }
 });
 
-// Função criada para consultar a chamada atual e o histórico que será exibido na TV.
-// Essa rota é usada para atualizar a tela automaticamente a cada poucos segundos.
+// ===============================
+// CONSULTAR CHAMADA DA TV
+// ===============================
+
 app.get("/tv/chamada", (req, res) => {
-  const db = readDB();
-  res.json({
-    chamada: db.tv_chamada,
-    historico: db.tv_historico
-  });
+  try {
+    const db = readDB();
+
+    res.json({
+      chamada: db.tv_chamada,
+      historico: db.tv_historico
+    });
+
+  } catch (erro) {
+    console.error(erro);
+
+    res.status(500).json({
+      erro: "Erro ao buscar chamada da TV."
+    });
+  }
 });
 
+// ===============================
+// LIMPAR CHAMADA ATUAL DA TV
+// ===============================
+
+app.delete("/tv/chamada", (req, res) => {
+  try {
+    const db = readDB();
+
+    db.tv_chamada = null;
+
+    writeDB(db);
+
+    res.json({
+      sucesso: true,
+      mensagem: "Chamada removida da TV."
+    });
+
+  } catch (erro) {
+    console.error(erro);
+
+    res.status(500).json({
+      erro: "Erro ao limpar chamada da TV."
+    });
+  }
+});
+
+// ===============================
 // LISTA DE MEDICAÇÕES
+// ===============================
+
 app.get("/lista-medicacoes", (req, res) => {
   res.json([
     "Dipirona",
@@ -161,34 +514,151 @@ app.get("/lista-medicacoes", (req, res) => {
   ]);
 });
 
-// CONSULTA
+// ===============================
+// CONSULTA MÉDICA
+// ===============================
+
 app.post("/consulta", (req, res) => {
-  const db = readDB();
+  try {
+    const db = readDB();
 
-  const consulta = {
-    id: Date.now(),
-    paciente: req.body.paciente,
-    diagnostico: req.body.diagnostico,
-    medicacao: req.body.medicacao,
-    obs: req.body.obs,
-    createdAt: new Date()
-  };
+    const {
+      paciente,
+      diagnostico,
+      medicacao,
+      obs
+    } = req.body;
 
-  db.consultas.push(consulta);
-  writeDB(db);
+    if (!paciente) {
+      return res.status(400).json({
+        erro: "Paciente é obrigatório."
+      });
+    }
 
-  res.json(consulta);
+    const consulta = {
+      id: Date.now(),
+
+      paciente,
+
+      diagnostico:
+        diagnostico || "",
+
+      medicacao:
+        medicacao || "",
+
+      obs:
+        obs || "",
+
+      createdAt: new Date()
+    };
+
+    db.consultas.push(consulta);
+
+    // ===============================
+    // ATUALIZA STATUS DO PACIENTE
+    // ===============================
+
+    const pacienteEncontrado = db.pacientes.find(
+      p =>
+        p.id === Number(paciente.id) ||
+        p.nome === paciente.nome
+    );
+
+    if (pacienteEncontrado) {
+      pacienteEncontrado.status = "atendido";
+    }
+
+    writeDB(db);
+
+    res.status(201).json(consulta);
+
+  } catch (erro) {
+    console.error(erro);
+
+    res.status(500).json({
+      erro: "Erro ao registrar consulta."
+    });
+  }
 });
 
-// MEDICAÇÕES
+// ===============================
+// LISTAR CONSULTAS
+// ===============================
+
 app.get("/medicacoes", (req, res) => {
-  const db = readDB();
-  res.json(db.consultas);
+  try {
+    const db = readDB();
+
+    res.json(db.consultas);
+
+  } catch (erro) {
+    console.error(erro);
+
+    res.status(500).json({
+      erro: "Erro ao buscar consultas."
+    });
+  }
 });
 
+// ===============================
+// LISTAR CONSULTAS
+// ALIAS MAIS CLARO
+// ===============================
+
+app.get("/consultas", (req, res) => {
+  try {
+    const db = readDB();
+
+    res.json(db.consultas);
+
+  } catch (erro) {
+    console.error(erro);
+
+    res.status(500).json({
+      erro: "Erro ao buscar consultas."
+    });
+  }
+});
+
+// ===============================
+// ROTA INICIAL
+// ===============================
+
+app.get("/api/status", (req, res) => {
+  res.json({
+    servidor: "online",
+    mensagem: "Sistema funcionando corretamente."
+  });
+});
+
+// ===============================
+// TRATAMENTO DE ROTA NÃO ENCONTRADA
+// ===============================
+
+app.use((req, res) => {
+  res.status(404).json({
+    erro: "Rota não encontrada."
+  });
+});
+
+// ===============================
+// TRATAMENTO DE ERROS
+// ===============================
+
+app.use((err, req, res, next) => {
+  console.error("Erro interno:", err);
+
+  res.status(500).json({
+    erro: "Erro interno do servidor."
+  });
+});
+
+// ===============================
 // START
-const PORT = process.env.PORT
-         || 3000;
-app.listen(PORT, () => { 
-  console.log(`Porta $ {PORT}`);
+// ===============================
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor iniciado na porta ${PORT}`);
 });
