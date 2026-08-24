@@ -20,7 +20,7 @@
       align-items: center;
       font-family: Arial, sans-serif;
 
-      /* Fundo degradê roxo, azul e vermelho */
+      /* Fundo roxo, azul e vermelho */
       background: linear-gradient(
         135deg,
         #6d28d9,
@@ -30,8 +30,9 @@
     }
 
     .container {
-      width: 390px;
-      padding: 30px 28px;
+      width: 360px;
+      padding: 30px 25px;
+
       background: #ffffff;
       border-radius: 20px;
 
@@ -48,8 +49,8 @@
 
     /* IMAGEM CENTRALIZADA */
     .logo {
-      width: 100px;
-      height: 100px;
+      width: 90px;
+      height: 90px;
       object-fit: contain;
       margin-bottom: 12px;
     }
@@ -58,47 +59,31 @@
     h2 {
       color: #6d28d9;
       font-size: 26px;
-      margin-bottom: 8px;
+      margin-bottom: 20px;
       font-weight: bold;
     }
 
-    .subtitulo {
-      color: #666;
-      font-size: 14px;
-      margin-bottom: 22px;
-    }
-
-    /* TÍTULO DO CADASTRO */
-    h3 {
-      width: 100%;
-      color: #2563eb;
-      font-size: 20px;
-      margin-bottom: 15px;
-    }
-
     /* CAMPOS */
-    input,
-    select {
+    input {
       width: 100%;
       height: 46px;
 
-      margin-bottom: 13px;
+      margin-bottom: 15px;
       padding: 10px 15px;
 
       border: 2px solid #7c3aed;
       border-radius: 10px;
 
       font-size: 15px;
+      text-align: center;
 
       outline: none;
 
-      transition: 0.2s;
+      transition: border-color 0.2s ease;
     }
 
-    input:focus,
-    select:focus {
+    input:focus {
       border-color: #2563eb;
-      box-shadow: 0 0 5px rgba(37, 99, 235, 0.25);
     }
 
     /* BOTÃO */
@@ -132,36 +117,6 @@
       transform: scale(1.02);
       opacity: 0.95;
     }
-
-    /* SEPARADOR */
-    .separador {
-      width: 100%;
-      margin: 20px 0;
-
-      border: none;
-      border-top: 1px solid #ddd;
-    }
-
-    /* LINK PARA LOGIN */
-    .login-text {
-      margin-top: 15px;
-      font-size: 14px;
-      color: #666;
-    }
-
-    .login-text span {
-      color: #6d28d9;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    /* RESPONSIVO */
-    @media (max-width: 450px) {
-      .container {
-        width: 90%;
-        padding: 25px 20px;
-      }
-    }
   </style>
 </head>
 
@@ -179,74 +134,34 @@
     <!-- TÍTULO -->
     <h2>🏥 Sistema Hospitalar</h2>
 
-    <p class="subtitulo">
-      Sistema de gerenciamento hospitalar
-    </p>
-
-    <!-- CADASTRO -->
-    <h3>Cadastro de Usuário</h3>
-
+    <!-- USUÁRIO -->
     <input
-      type="text"
-      id="nome"
-      placeholder="Nome completo"
-    >
-
-    <input
-      type="text"
       id="usuario"
-      placeholder="Nome de usuário"
+      type="text"
+      placeholder="Usuário"
     >
 
+    <!-- SENHA -->
     <input
-      type="email"
-      id="email"
-      placeholder="E-mail"
-    >
-
-    <input
-      type="password"
       id="senha"
+      type="password"
       placeholder="Senha"
     >
 
-    <select id="tipo">
-      <option value="">Selecione o tipo de usuário</option>
-      <option value="triagem">Triagem</option>
-      <option value="medico">Médico</option>
-      <option value="atendimento">Atendimento</option>
-    </select>
-
-    <button onclick="cadastrar()">
-      Cadastrar
+    <!-- BOTÃO -->
+    <button onclick="login()">
+      Entrar
     </button>
-
-    <hr class="separador">
-
-    <!-- LOGIN -->
-    <p class="login-text">
-      Já possui uma conta?
-      <span onclick="mostrarLogin()">Entrar</span>
-    </p>
 
   </div>
 
   <script>
+    function login() {
 
-    function cadastrar() {
-
-      const nome = document.getElementById("nome").value;
       const usuario = document.getElementById("usuario").value;
-      const email = document.getElementById("email").value;
       const senha = document.getElementById("senha").value;
-      const tipo = document.getElementById("tipo").value;
 
-      if (!nome || !usuario || !email || !senha || !tipo) {
-        alert("Preencha todos os campos!");
-        return;
-      }
-
-      fetch("/cadastro", {
+      fetch("/login", {
         method: "POST",
 
         headers: {
@@ -254,46 +169,34 @@
         },
 
         body: JSON.stringify({
-          nome: nome,
           usuario: usuario,
-          email: email,
-          senha: senha,
-          tipo: tipo
+          senha: senha
         })
       })
 
-      .then(response => response.json())
+      .then(r => r.json())
 
       .then(data => {
 
-        if (data.sucesso) {
-          alert("Cadastro realizado com sucesso!");
+        if (data.tipo === "triagem") {
+          location.href = "triagem.html";
+        }
 
-          document.getElementById("nome").value = "";
-          document.getElementById("usuario").value = "";
-          document.getElementById("email").value = "";
-          document.getElementById("senha").value = "";
-          document.getElementById("tipo").value = "";
-        } else {
-          alert(data.mensagem || "Erro ao realizar cadastro.");
+        if (data.tipo === "medico") {
+          location.href = "medico.html";
+        }
+
+        if (data.tipo === "atendimento") {
+          location.href = "atendimento.html";
         }
 
       })
 
       .catch(error => {
-
-        console.error("Erro:", error);
-
-        alert("Não foi possível conectar ao servidor.");
-
+        console.error("Erro ao realizar login:", error);
       });
 
     }
-
-    function mostrarLogin() {
-      window.location.href = "login.html";
-    }
-
   </script>
 
 </body>
