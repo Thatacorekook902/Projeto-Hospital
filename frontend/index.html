@@ -1,203 +1,217 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html> 
+<html lang="pt-BR"> 
+<head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+ 
+  <title>Sistema Hospitalar</title> 
+ 
+  <style> 
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    } 
+ 
+    body { 
+      min-height: 100vh; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      font-family: Arial, sans-serif; 
+ 
+      /* Fundo roxo, azul e vermelho */ 
+      background: linear-gradient( 
+        135deg, 
+        #6d28d9, 
+        #2563eb, 
+        #e11d48 
+      ); 
+    } 
+ 
+    .container { 
+      width: 360px; 
+      padding: 30px 25px; 
+ 
+      background: #ffffff; 
+      border-radius: 20px; 
+ 
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); 
+ 
+      border: 3px solid #6d28d9; 
+ 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+ 
+      text-align: center; 
+    } 
+ 
+    /* IMAGEM CENTRALIZADA */ 
+    .logo { 
+      width: 90px; 
+      height: 90px; 
+      object-fit: contain; 
+      margin-bottom: 12px; 
+    } 
+ 
+    /* TÍTULO */ 
+    h2 { 
+      color: #6d28d9; 
+      font-size: 26px; 
+      margin-bottom: 8px; 
+      font-weight: bold; 
+    } 
 
-  <title>Sistema Hospitalar</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
-
-      /* Fundo roxo, azul e vermelho */
-      background: linear-gradient(
-        135deg,
-        #6d28d9,
-        #2563eb,
-        #e11d48
-      );
-    }
-
-    .container {
-      width: 360px;
-      padding: 30px 25px;
-
-      background: #ffffff;
-      border-radius: 20px;
-
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-
-      border: 3px solid #6d28d9;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      text-align: center;
-    }
-
-    /* IMAGEM CENTRALIZADA */
-    .logo {
-      width: 90px;
-      height: 90px;
-      object-fit: contain;
-      margin-bottom: 12px;
-    }
-
-    /* TÍTULO */
-    h2 {
-      color: #6d28d9;
-      font-size: 26px;
+    /* FRASE FOFA */
+    .frase {
+      color: #2563eb;
+      font-size: 14px;
       margin-bottom: 20px;
+      line-height: 1.5;
       font-weight: bold;
     }
+ 
+    /* CAMPOS */ 
+    input { 
+      width: 100%; 
+      height: 46px; 
+ 
+      margin-bottom: 15px; 
+      padding: 10px 15px; 
+ 
+      border: 2px solid #7c3aed; 
+      border-radius: 10px; 
+ 
+      font-size: 15px; 
+      text-align: center; 
+ 
+      outline: none; 
+ 
+      transition: border-color 0.2s ease; 
+    } 
+ 
+    input:focus { 
+      border-color: #2563eb; 
+    } 
+ 
+    /* BOTÃO */ 
+    button { 
+      width: 100%; 
+      height: 46px; 
+ 
+      margin-top: 5px; 
+ 
+      border: none; 
+      border-radius: 10px; 
+ 
+      background: linear-gradient( 
+        90deg, 
+        #6d28d9, 
+        #2563eb, 
+        #e11d48 
+      ); 
+ 
+      color: white; 
+ 
+      font-size: 17px; 
+      font-weight: bold; 
+ 
+      cursor: pointer; 
+ 
+      transition: transform 0.2s ease, opacity 0.2s ease; 
+    } 
+ 
+    button:hover { 
+      transform: scale(1.02); 
+      opacity: 0.95; 
+    } 
+  </style> 
+</head> 
+ 
+<body> 
+ 
+  <div class="container"> 
+ 
+    <!-- IMAGEM --> 
+    <img 
+      src="logo.png" 
+      alt="Logo do Sistema Hospitalar" 
+      class="logo" 
+    > 
+ 
+    <!-- TÍTULO --> 
+    <h2>🏥 Sistema Hospitalar</h2> 
 
-    /* CAMPOS */
-    input {
-      width: 100%;
-      height: 46px;
-
-      margin-bottom: 15px;
-      padding: 10px 15px;
-
-      border: 2px solid #7c3aed;
-      border-radius: 10px;
-
-      font-size: 15px;
-      text-align: center;
-
-      outline: none;
-
-      transition: border-color 0.2s ease;
-    }
-
-    input:focus {
-      border-color: #2563eb;
-    }
-
-    /* BOTÃO */
-    button {
-      width: 100%;
-      height: 46px;
-
-      margin-top: 5px;
-
-      border: none;
-      border-radius: 10px;
-
-      background: linear-gradient(
-        90deg,
-        #6d28d9,
-        #2563eb,
-        #e11d48
-      );
-
-      color: white;
-
-      font-size: 17px;
-      font-weight: bold;
-
-      cursor: pointer;
-
-      transition: transform 0.2s ease, opacity 0.2s ease;
-    }
-
-    button:hover {
-      transform: scale(1.02);
-      opacity: 0.95;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="container">
-
-    <!-- IMAGEM -->
-    <img
-      src="logo.png"
-      alt="Logo do Sistema Hospitalar"
-      class="logo"
-    >
-
-    <!-- TÍTULO -->
-    <h2>🏥 Sistema Hospitalar</h2>
-
-    <!-- USUÁRIO -->
-    <input
-      id="usuario"
-      type="text"
-      placeholder="Usuário"
-    >
-
-    <!-- SENHA -->
-    <input
-      id="senha"
-      type="password"
-      placeholder="Senha"
-    >
-
-    <!-- BOTÃO -->
-    <button onclick="login()">
-      Entrar
-    </button>
-
-  </div>
-
-  <script>
-    function login() {
-
-      const usuario = document.getElementById("usuario").value;
-      const senha = document.getElementById("senha").value;
-
-      fetch("/login", {
-        method: "POST",
-
-        headers: {
-          "Content-Type": "application/json"
-        },
-
-        body: JSON.stringify({
-          usuario: usuario,
-          senha: senha
-        })
-      })
-
-      .then(r => r.json())
-
-      .then(data => {
-
-        if (data.tipo === "triagem") {
-          location.href = "triagem.html";
-        }
-
-        if (data.tipo === "medico") {
-          location.href = "medico.html";
-        }
-
-        if (data.tipo === "atendimento") {
-          location.href = "atendimento.html";
-        }
-
-      })
-
-      .catch(error => {
-        console.error("Erro ao realizar login:", error);
-      });
-
-    }
-  </script>
-
-</body>
+    <!-- FRASE FOFA -->
+    <p class="frase">
+      Cuidando dos nossos pequeninos com muito amor, carinho e um sorriso! 🧸💜✨
+    </p>
+ 
+    <!-- USUÁRIO --> 
+    <input 
+      id="usuario" 
+      type="text" 
+      placeholder="Usuário" 
+    > 
+ 
+    <!-- SENHA --> 
+    <input 
+      id="senha" 
+      type="password" 
+      placeholder="Senha" 
+    > 
+ 
+    <!-- BOTÃO --> 
+    <button onclick="login()"> 
+      Entrar 
+    </button> 
+ 
+  </div> 
+ 
+  <script> 
+    function login() { 
+ 
+      const usuario = document.getElementById("usuario").value; 
+      const senha = document.getElementById("senha").value; 
+ 
+      fetch("/login", { 
+        method: "POST", 
+ 
+        headers: { 
+          "Content-Type": "application/json" 
+        }, 
+ 
+        body: JSON.stringify({ 
+          usuario: usuario, 
+          senha: senha 
+        }) 
+      }) 
+ 
+      .then(r => r.json()) 
+ 
+      .then(data => { 
+ 
+        if (data.tipo === "triagem") { 
+          location.href = "triagem.html"; 
+        } 
+ 
+        if (data.tipo === "medico") { 
+          location.href = "medico.html"; 
+        } 
+ 
+        if (data.tipo === "atendimento") { 
+          location.href = "atendimento.html"; 
+        } 
+ 
+      }) 
+ 
+      .catch(error => { 
+        console.error("Erro ao realizar login:", error); 
+      }); 
+ 
+    } 
+  </script> 
+ 
+</body> 
 </html>
