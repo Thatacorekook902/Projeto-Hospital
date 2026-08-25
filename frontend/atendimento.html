@@ -1,8 +1,95 @@
 <!DOCTYPE html>
 <html>
-<head><link rel="stylesheet" href="style.css"></head>
+<head>
+<link rel="stylesheet" href="style.css">
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+
+  background: linear-gradient(135deg, #0d47a1, #6a1b9a, #b71c1c);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 30px;
+}
+
+.container {
+  width: 100%;
+  max-width: 500px;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  padding: 30px;
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+  text-align: center;
+  margin: 0 0 15px;
+  color: #6a1b9a;
+  font-size: 30px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 12px;
+
+  border: 1px solid #ccc;
+  border-radius: 8px;
+
+  font-size: 16px;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #6a1b9a;
+  box-shadow: 0 0 6px rgba(106, 27, 154, 0.4);
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: linear-gradient(90deg, #1565c0, #7b1fa2, #c62828);
+
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+button:hover {
+  transform: scale(1.02);
+}
+</style>
+
+</head>
+
 <body>
+
 <div class="container">
+
 <h2>Atendimento</h2>
 
 <input id="Nome" placeholder="Nome">
@@ -16,10 +103,6 @@
 <input id="E-mail" placeholder="E-mail">
 <input id="Contato de emergência" placeholder="Contato de emergência">
 
-
-
-
-
 <select id="tipo">
   <option>Convenio</option>
   <option>Particular</option>
@@ -28,6 +111,7 @@
 <input type="file" id="foto">
 
 <button onclick="cadastrar()">Cadastrar</button>
+
 </div>
 
 <script>
@@ -44,5 +128,6 @@ function cadastrar(){
  alert("Paciente enviado para triagem");
 }
 </script>
+
 </body>
 </html>
