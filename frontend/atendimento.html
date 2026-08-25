@@ -65,19 +65,18 @@ body::before {
 /* Título */
 h2 {
   text-align: center;
-  margin: 0 0 5px;
+  margin: 0;
   color: #6a1b9a;
   font-size: 30px;
 }
 
-/* Texto abaixo do título */
-h2::after {
-  content: "Cuidando dos nossos pequenos com carinho 💜";
-  display: block;
-  font-size: 14px;
-  font-weight: normal;
+/* Frase abaixo do título */
+.subtitulo {
+  text-align: center;
+  font-size: 15px;
   color: #1565c0;
-  margin-top: 8px;
+  margin-top: -5px;
+  margin-bottom: 10px;
 }
 
 input,
@@ -89,16 +88,13 @@ select {
   border-radius: 12px;
 
   font-size: 15px;
-
   background: #fafafa;
 }
 
 input:focus,
 select:focus {
   outline: none;
-
   border-color: #7b1fa2;
-
   box-shadow: 0 0 8px rgba(123, 31, 162, 0.25);
 }
 
@@ -120,26 +116,21 @@ button {
   color: white;
   font-size: 17px;
   font-weight: bold;
-
   cursor: pointer;
-
   transition: 0.3s;
 }
 
 button:hover {
   transform: scale(1.03);
-
   box-shadow: 0 5px 15px rgba(80, 30, 120, 0.3);
 }
 
-/* Detalhe no botão */
 button::before {
   content: "🏥 ";
 }
 
 /* Responsividade */
 @media (max-width: 600px) {
-
   body {
     padding: 15px;
   }
@@ -151,7 +142,6 @@ button::before {
   h2 {
     font-size: 25px;
   }
-
 }
 </style>
 
@@ -161,10 +151,14 @@ button::before {
 
 <div class="container">
 
-<!-- Logo opcional: coloque o arquivo logo.png na mesma pasta -->
+<!-- Logo opcional -->
 <img src="logo.png" alt="Logo Hospital Pediátrico" class="logo">
 
-<h2>Atendimento</h2>
+<h2>🏥 Cadastro do Paciente</h2>
+
+<div class="subtitulo">
+  Atendimento com carinho para cuidar do seu pequeno! 🧸💜
+</div>
 
 <input id="Nome" placeholder="Nome">
 <input id="CPF" placeholder="CPF">
@@ -190,18 +184,18 @@ button::before {
 
 <script>
 function cadastrar(){
- fetch("http://localhost:3000/atendimento",{
-  method:"POST",
-  headers:{"Content-Type":"application/json"},
-  body: JSON.stringify({
-    nome: nome.value,
-    cpf: cpf.value,
-    tipo: tipo.value
-  })
- });
- alert("Paciente enviado para triagem");
-}
-</script>
-
-</body>
+ fetch("http://localhost:3000/atendimento",{ 
+  method:"POST", 
+  headers:{"Content-Type":"application/json"}, 
+  body: JSON.stringify({ 
+    nome: nome.value, 
+    cpf: cpf.value, 
+    tipo: tipo.value 
+  }) 
+ }); 
+ alert("Paciente enviado para triagem"); 
+} 
+</script> 
+ 
+</body> 
 </html>
