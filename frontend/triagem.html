@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html> 
 <html lang="pt-br"> 
 <head> 
@@ -18,7 +17,7 @@
 body {
   min-height: 100vh;
   font-family: "Segoe UI", Arial, sans-serif;
-  background: linear-gradient(135deg, #eef4ff, #f5edff);
+  background: url("fundo.png") center center / cover fixed no-repeat;
   color: #333;
   padding: 30px 15px;
 }
@@ -304,33 +303,35 @@ textarea::placeholder {
 
 </style> 
 </head> 
- 
+
 <body> 
 <div class="container"> 
- 
+
   <!-- Cabeçalho com botão da TV --> 
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;"> 
     <h2 style="margin:0;">🏥 Triagem Hospitalar</h2> 
     <button class="btn-abrir-tv" onclick="window.open('tv.html','_blank')">📺 Abrir Tela da TV</button> 
   </div> 
- 
+
   <!-- Fila de pacientes do Atendimento criada para mostrar quem pode ser chamado na TV --> 
   <div class="pacientes-fila"> 
     <h3> 
       Pacientes Cadastrados no Atendimento 
       <span>Clique em "Chamar na TV" para chamar ao guichê</span> 
     </h3> 
+
     <div id="fila-pacientes"> 
       <p style="color:#888; text-align:center;">Carregando...</p> 
     </div> 
+
     <button onclick="carregarPacientes()" style="margin-top:8px; background:#6c757d; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:13px;">🔄 Atualizar lista</button> 
   </div> 
- 
+
   <hr> 
- 
+
   <h3>Formulário de Triagem</h3> 
   <input id="nome" placeholder="Nome do paciente"> 
- 
+
   <select id="sintoma"> 
     <option value="">Selecione o sintoma</option> 
     <option value="dor_leve">Dor leve</option> 
@@ -347,33 +348,33 @@ textarea::placeholder {
     <option value="convulsao">Convulsão</option> 
     <option value="hemorragia">Hemorragia</option> 
   </select> 
- 
+
   <input id="temp" type="number" placeholder="Temperatura"> 
   <input id="alergia" placeholder="Alergias"> 
   <textarea id="observacao" placeholder="Observações"></textarea> 
- 
+
   <div id="resultado"></div> 
- 
+
   <button onclick="salvar()">Salvar Triagem</button> 
- 
+
 </div> 
- 
+
 <script> 
- 
+
 function carregarPacientes() { 
   fetch("/pacientes") 
     .then(r => r.json()) 
     .then(pacientes => { 
       const div = document.getElementById("fila-pacientes"); 
- 
+
       // Mostra apenas os com status "triagem" 
       const fila = pacientes.filter(p => p.status === "triagem"); 
- 
+
       if (fila.length === 0) { 
         div.innerHTML = "<p style='color:#888; text-align:center;'>Nenhum paciente aguardando.</p>"; 
         return; 
       } 
- 
+
       div.innerHTML = ""; 
       fila.forEach(p => { 
         const item = document.createElement("div"); 
@@ -393,7 +394,7 @@ function carregarPacientes() {
         "<p style='color:red;'>Erro ao carregar pacientes.</p>"; 
     }); 
 } 
- 
+
 // Função criada para enviar o nome do paciente para a TV quando ele for chamado no guichê. 
 function chamarNaTV(nome) { 
   fetch("/tv/chamar", { 
@@ -410,7 +411,7 @@ function chamarNaTV(nome) {
     alert("✅ " + nome + " foi chamado na TV para o Guichê 01!"); 
   }); 
 } 
- 
+
 function classificarRisco(sintoma, temperatura) { 
   const vermelhos = ["infarto","avc","convulsao","hemorragia","falta_ar_grave"]; 
   const amarelos = ["febre","vomito","diarreia","falta_ar_moderada"]; 
@@ -419,7 +420,7 @@ function classificarRisco(sintoma, temperatura) {
   if (amarelos.includes(sintoma)) return "amarelo"; 
   return "verde"; 
 } 
- 
+
 function salvar() { 
   const nome = document.getElementById("nome").value; 
   const sintoma = document.getElementById("sintoma").value; 
@@ -427,7 +428,7 @@ function salvar() {
   const alergia = document.getElementById("alergia").value; 
   const observacao = document.getElementById("observacao").value; 
   const risco = classificarRisco(sintoma, temperatura); 
- 
+
   fetch("/triagem", { 
     method: "POST", 
     headers: { "Content-Type": "application/json" }, 
@@ -441,15 +442,14 @@ function salvar() {
     alert("Triagem salva com sucesso!"); 
   }); 
 } 
- 
+
 // Carrega a fila ao abrir a página 
 carregarPacientes(); 
- 
+
 // Atualiza a lista automaticamente a cada 10 segundos 
 setInterval(carregarPacientes, 10000); 
- 
+
 </script> 
- 
+
 </body> 
 </html>
-```
