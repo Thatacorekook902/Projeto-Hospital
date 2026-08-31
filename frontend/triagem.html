@@ -17,9 +17,35 @@
 body {
   min-height: 100vh;
   font-family: "Segoe UI", Arial, sans-serif;
-  background: url("fundo.png") center center / cover fixed no-repeat;
+
+  /* FUNDO PONY MED - ROXO + ROSA + VERMELHO 🦄💜🩷❤️ */
+  background:
+    linear-gradient(
+      135deg,
+      rgba(126, 87, 194, 0.25),
+      rgba(236, 139, 190, 0.22),
+      rgba(229, 57, 53, 0.12)
+    ),
+    url("fundo.png") center center / cover fixed no-repeat;
+
   color: #333;
   padding: 30px 15px;
+  position: relative;
+}
+
+/* DETALHES FOFOS NO FUNDO */
+body::before {
+  content: "🦄 ✨ 💜 🩷 ✨ 🌈 ❤️ ✨";
+  position: fixed;
+  top: 12px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 22px;
+  letter-spacing: 8px;
+  opacity: 0.75;
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* CONTAINER PRINCIPAL */
@@ -27,16 +53,20 @@ body {
   width: 100%;
   max-width: 1000px;
   margin: auto;
-  background: white;
+  background: rgba(255, 255, 255, 0.96);
   padding: 30px;
   border-radius: 22px;
-  box-shadow: 0 10px 35px rgba(76, 54, 150, 0.15);
+  box-shadow: 
+    0 10px 35px rgba(76, 54, 150, 0.20),
+    0 0 25px rgba(236, 139, 190, 0.18);
   border-top: 6px solid #6c3dcc;
+  position: relative;
+  z-index: 1;
 }
 
 /* CABEÇALHO */
 .container > div:first-child {
-  background: linear-gradient(135deg, #5631b8, #2879e8);
+  background: linear-gradient(135deg, #6c3dcc, #b45ac8, #e53935);
   padding: 18px 22px;
   border-radius: 16px;
   color: white;
@@ -72,7 +102,11 @@ body {
 /* FILA DE PACIENTES */
 .pacientes-fila {
   margin: 25px 0 30px;
-  background: #f5f2ff;
+  background: linear-gradient(
+    135deg,
+    #faf5ff,
+    #fff0f7
+  );
   border-radius: 16px;
   padding: 20px;
   border: 2px solid #ded4ff;
@@ -106,9 +140,9 @@ body {
   padding: 14px 16px;
   margin-bottom: 10px;
   border-left: 5px solid #2879e8;
-  border-top: 1px solid #e0e6ff;
-  border-right: 1px solid #e0e6ff;
-  border-bottom: 1px solid #e0e6ff;
+  border-top: 1px solid #e0d5f5;
+  border-right: 1px solid #e0d5f5;
+  border-bottom: 1px solid #e0d5f5;
   transition: 0.3s;
 }
 
@@ -161,9 +195,17 @@ body {
 /* LINHA */
 hr {
   border: none;
-  height: 2px;
-  background: linear-gradient(to right, #6c3dcc, #2879e8, #e53935);
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    #6c3dcc,
+    #b45ac8,
+    #e88bc0,
+    #e53935,
+    #2879e8
+  );
   margin: 25px 0;
+  border-radius: 10px;
 }
 
 /* TÍTULO DO FORMULÁRIO */
@@ -192,9 +234,9 @@ textarea {
 input:focus,
 select:focus,
 textarea:focus {
-  border-color: #6c3dcc;
+  border-color: #b45ac8;
   background: white;
-  box-shadow: 0 0 0 3px rgba(108, 61, 204, 0.1);
+  box-shadow: 0 0 0 3px rgba(180, 90, 200, 0.12);
 }
 
 textarea {
@@ -244,7 +286,12 @@ textarea::placeholder {
   padding: 14px;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(135deg, #6c3dcc, #2879e8);
+  background: linear-gradient(
+    135deg,
+    #6c3dcc,
+    #b45ac8,
+    #e53935
+  );
   color: white;
   font-size: 16px;
   font-weight: bold;
@@ -263,6 +310,11 @@ textarea::placeholder {
 
   body {
     padding: 15px 10px;
+  }
+
+  body::before {
+    font-size: 16px;
+    letter-spacing: 4px;
   }
 
   .container {
