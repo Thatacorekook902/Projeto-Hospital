@@ -13,7 +13,12 @@ body {
   min-height: 100vh;
   font-family: Arial, sans-serif;
 
-  background: linear-gradient(135deg, #e3f2fd, #f3e5f5, #ffebee);
+  /* IMAGEM DE FUNDO */
+  background-image: url("fundo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 
   display: flex;
   justify-content: center;
@@ -184,18 +189,18 @@ button::before {
 
 <script>
 function cadastrar(){
- fetch("http://localhost:3000/atendimento",{ 
-  method:"POST", 
-  headers:{"Content-Type":"application/json"}, 
-  body: JSON.stringify({ 
-    nome: nome.value, 
-    cpf: cpf.value, 
-    tipo: tipo.value 
-  }) 
- }); 
- alert("Paciente enviado para triagem"); 
-} 
-</script> 
- 
-</body> 
+ fetch("http://localhost:3000/atendimento",{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body: JSON.stringify({
+    nome: nome.value,
+    cpf: cpf.value,
+    tipo: tipo.value
+  })
+ });
+ alert("Paciente enviado para triagem");
+}
+</script>
+
+</body>
 </html>
