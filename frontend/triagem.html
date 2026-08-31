@@ -14,38 +14,23 @@
   padding: 0;
 }
 
+<style>
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   min-height: 100vh;
   font-family: "Segoe UI", Arial, sans-serif;
 
-  /* FUNDO PONY MED - ROXO + ROSA + VERMELHO 🦄💜🩷❤️ */
-  background:
-    linear-gradient(
-      135deg,
-      rgba(126, 87, 194, 0.25),
-      rgba(236, 139, 190, 0.22),
-      rgba(229, 57, 53, 0.12)
-    ),
-    url("fundo.png") center center / cover fixed no-repeat;
+  /* SOMENTE A IMAGEM DE FUNDO */
+  background: url("fundo.png") center center / cover fixed no-repeat;
 
   color: #333;
   padding: 30px 15px;
-  position: relative;
-}
-
-/* DETALHES FOFOS NO FUNDO */
-body::before {
-  content: "🦄 ✨ 💜 🩷 ✨ 🌈 ❤️ ✨";
-  position: fixed;
-  top: 12px;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  font-size: 22px;
-  letter-spacing: 8px;
-  opacity: 0.75;
-  pointer-events: none;
-  z-index: 0;
 }
 
 /* CONTAINER PRINCIPAL */
