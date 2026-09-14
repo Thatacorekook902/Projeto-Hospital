@@ -1,250 +1,363 @@
 <!DOCTYPE html> 
-<html> 
+<html lang="pt-br"> 
+ 
 <head> 
-  <link rel="stylesheet" href="css/style.css"> 
-
-  <style> 
-    .btn-tv { 
-      background: #28a745; 
-      color: white; 
-      border: none; 
-      padding: 8px 14px; 
-      border-radius: 5px; 
-      cursor: pointer; 
-      font-size: 14px; 
-      margin-top: 8px; 
-    } 
-
-    .btn-tv:hover { 
-      background: #1e7e34; 
-    } 
-
-    .btn-abrir-tv { 
-      background: #17a2b8; 
-      color: white; 
-      border: none; 
-      padding: 8px 16px; 
-      border-radius: 5px; 
-      font-size: 14px; 
-      cursor: pointer; 
-    } 
-
-    .btn-abrir-tv:hover { 
-      background: #117a8b; 
-    } 
-
-    /* BOTÃO NOVO - ALTA DO PACIENTE */
-    .btn-alta { 
-      background: #8e24aa; 
-      color: white; 
-      border: none; 
-      padding: 12px 20px; 
-      border-radius: 8px; 
-      font-size: 16px; 
-      font-weight: bold; 
-      cursor: pointer; 
-      margin-left: 10px;
-    }
-
-    .btn-alta:hover { 
-      background: #6a1b7b; 
-    }
-
-    .consultorio-input { 
-      display: flex; 
-      align-items: center; 
-      gap: 10px; 
-      margin-bottom: 16px; 
-      background: #f0f4ff; 
-      padding: 10px 14px; 
-      border-radius: 6px; 
-      border: 1px solid #d0d8f0; 
-    } 
-
-    .consultorio-input label { 
-      font-weight: bold; 
-    } 
-
-    .consultorio-input input { 
-      width: 60px; 
-      text-align: center; 
-      font-size: 18px; 
-      font-weight: bold; 
-      padding: 4px 8px; 
-      border: 1px solid #ccc; 
-      border-radius: 4px; 
-    } 
-  </style> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+ 
+    <title>Alta do Paciente</title> 
+ 
+    <style> 
+ 
+        * { 
+            box-sizing: border-box; 
+        } 
+ 
+        body { 
+            margin: 0; 
+            min-height: 100vh; 
+            font-family: Arial, sans-serif; 
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5, #ffebee); 
+ 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; 
+ 
+            padding: 35px 20px; 
+        } 
+ 
+        .container { 
+            width: 100%; 
+            max-width: 1200px; 
+ 
+            background: white; 
+ 
+            border-radius: 25px; 
+ 
+            padding: 50px; 
+ 
+            box-shadow: 0 10px 35px rgba(0,0,0,0.18); 
+        } 
+ 
+        header { 
+            text-align: center; 
+ 
+            background: linear-gradient(135deg, #7b1fa2, #3949ab); 
+ 
+            color: white; 
+ 
+            padding: 45px 30px; 
+ 
+            border-radius: 22px; 
+ 
+            margin-bottom: 45px; 
+ 
+            box-shadow: 0 6px 18px rgba(63, 81, 181, 0.25); 
+        } 
+ 
+        header h1 { 
+            font-size: 48px; 
+            margin: 0 0 18px 0; 
+            letter-spacing: 1px; 
+        } 
+ 
+        header p { 
+            font-size: 25px; 
+            margin: 0; 
+            line-height: 1.5; 
+        } 
+ 
+        .formulario { 
+            padding: 10px 15px; 
+        } 
+ 
+        .campo { 
+            margin-bottom: 35px; 
+        } 
+ 
+        .campo label { 
+            display: block; 
+ 
+            font-size: 27px; 
+ 
+            font-weight: bold; 
+ 
+            margin-bottom: 14px; 
+ 
+            color: #333; 
+        } 
+ 
+        .campo input, 
+        .campo textarea, 
+        .campo select { 
+            width: 100%; 
+ 
+            padding: 20px 22px; 
+ 
+            font-size: 24px; 
+ 
+            border: 2px solid #c9d2ed; 
+ 
+            border-radius: 14px; 
+ 
+            outline: none; 
+ 
+            background: #fafbff; 
+ 
+            color: #222; 
+ 
+            min-height: 65px; 
+        } 
+ 
+        .campo input::placeholder, 
+        .campo textarea::placeholder { 
+            color: #888; 
+            font-size: 21px; 
+        } 
+ 
+        .campo textarea { 
+            min-height: 180px; 
+ 
+            resize: vertical; 
+ 
+            line-height: 1.5; 
+        } 
+ 
+        .campo input:focus, 
+        .campo textarea:focus, 
+        .campo select:focus { 
+            border-color: #7b1fa2; 
+ 
+            background: white; 
+ 
+            box-shadow: 0 0 0 4px rgba(123, 31, 162, 0.10); 
+        } 
+ 
+        /* Organização dos campos em blocos */ 
+ 
+        .campo::before { 
+            content: ""; 
+            display: block; 
+        } 
+ 
+        .botoes { 
+            display: flex; 
+ 
+            justify-content: center; 
+ 
+            gap: 25px; 
+ 
+            margin-top: 45px; 
+ 
+            flex-wrap: wrap; 
+        } 
+ 
+        .btn { 
+            padding: 20px 38px; 
+ 
+            font-size: 23px; 
+ 
+            font-weight: bold; 
+ 
+            border: none; 
+ 
+            border-radius: 14px; 
+ 
+            cursor: pointer; 
+ 
+            min-width: 280px; 
+ 
+            transition: 0.2s; 
+        } 
+ 
+        .btn-pdf { 
+            background: #7b1fa2; 
+ 
+            color: white; 
+ 
+            box-shadow: 0 5px 12px rgba(123, 31, 162, 0.25); 
+        } 
+ 
+        .btn-voltar { 
+            background: #3949ab; 
+ 
+            color: white; 
+ 
+            box-shadow: 0 5px 12px rgba(57, 73, 171, 0.25); 
+        } 
+ 
+        .btn:hover { 
+            opacity: 0.9; 
+            transform: translateY(-2px); 
+        } 
+ 
+        /* Separadores visuais */ 
+ 
+        .campo:not(:last-child) { 
+            padding-bottom: 10px; 
+        } 
+ 
+        @media (max-width: 700px) { 
+ 
+            body { 
+                padding: 15px 10px; 
+            } 
+ 
+            .container { 
+                padding: 25px 18px; 
+                border-radius: 18px; 
+            } 
+ 
+            header { 
+                padding: 30px 15px; 
+            } 
+ 
+            header h1 { 
+                font-size: 36px; 
+            } 
+ 
+            header p { 
+                font-size: 20px; 
+            } 
+ 
+            .campo label { 
+                font-size: 22px; 
+            } 
+ 
+            .campo input, 
+            .campo textarea, 
+            .campo select { 
+                font-size: 20px; 
+            } 
+ 
+            .btn { 
+                width: 100%; 
+                min-width: 0; 
+            } 
+ 
+        } 
+ 
+        @media print { 
+ 
+            body { 
+                background: white; 
+                padding: 0; 
+            } 
+ 
+            .container { 
+                box-shadow: none; 
+                max-width: 100%; 
+                padding: 20px; 
+            } 
+ 
+            header { 
+                box-shadow: none; 
+            } 
+ 
+            .botoes { 
+                display: none; 
+            } 
+ 
+        } 
+ 
+    </style> 
+ 
 </head> 
  
 <body> 
  
-<div class="container"> 
+    <div class="container"> 
  
-  <!-- Cabeçalho com botões --> 
-  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;"> 
-
-    <h2 style="margin:0;">🩺 Painel Médico</h2> 
-
-    <div>
-      <button class="btn-abrir-tv" onclick="window.open('tv.html','_blank')">
-        📺 Abrir Tela da TV
-      </button>
-
-      <!-- BOTÃO NOVO -->
-      <button class="btn-alta" onclick="window.location.href='alta.html'">
-        🏥 Alta do Paciente
-      </button>
-    </div>
-
-  </div> 
+        <header> 
  
-  <!-- Campo criado para informar o consultório e chamar o paciente na TV --> 
-  <div class="consultorio-input"> 
-    <label>Meu Consultório:</label> 
-    <input type="text" id="consultorio-num" value="01"> 
-    <span style="color:#666; font-size:13px;">
-      Este número será exibido na TV ao chamar o paciente.
-    </span> 
-  </div> 
+            <h1>🏥 Alta do Paciente</h1> 
  
-  <div id="triagens"></div> 
+            <p>Formulário de alta e acompanhamento do paciente</p> 
  
-  <hr> 
+        </header> 
  
-  <h3>Consulta</h3> 
+        <div class="formulario"> 
  
-  <input id="paciente" placeholder="Paciente" readonly> 
-  <input id="diagnostico" placeholder="Diagnóstico"> 
+            <div class="campo"> 
  
-  <select id="medicacao"> 
-    <option value="">Selecione a medicação</option> 
-  </select> 
+                <label>👤 Nome do Paciente</label> 
  
-  <textarea id="obs" placeholder="Observações"></textarea> 
+                <input 
+                    type="text" 
+                    id="paciente" 
+                    placeholder="Digite o nome completo do paciente" 
+                > 
  
-  <button onclick="salvar()">Salvar</button> 
- 
-</div> 
- 
-<script> 
- 
-let triagensCarregadas = []; 
- 
-function carregar() { 
-  fetch("/triagens") 
-    .then(r => r.json()) 
-    .then(data => { 
-      triagensCarregadas = data; 
- 
-      const div = document.getElementById("triagens"); 
-      div.innerHTML = ""; 
- 
-      if (data.length === 0) { 
-        div.innerHTML = "<p style='color:#888; text-align:center;'>Nenhum paciente na fila.</p>"; 
-        return; 
-      } 
- 
-      data.forEach((t, index) => { 
-        div.innerHTML += ` 
-          <div class="card"> 
-            <h3>${t.nome}</h3> 
-            <p><b>Sintoma:</b> ${t.sintoma || "Não informado"}</p> 
-            <p><b>Temperatura:</b> ${t.temperatura || "Não informada"}°C</p> 
-            <p><span class="${t.risco}">${t.risco}</span></p> 
-            <p><b>Alergia:</b> ${t.alergia || "Nenhuma"}</p> 
-            <p><b>Observação:</b> ${t.observacao || "Nenhuma"}</p> 
-            <div style="display:flex; gap:8px; flex-wrap:wrap;"> 
-              <button onclick="selecionar(${index})">Atender</button> 
-              <button class="btn-tv" onclick="chamarNaTV('${t.nome}')">
-                📺 Chamar na TV
-              </button> 
             </div> 
-          </div> 
-        `; 
-      }); 
-    }); 
-} 
  
-function chamarNaTV(nome) { 
-  const consultorio = document.getElementById("consultorio-num").value || "01"; 
-
-  fetch("/tv/chamar", { 
-    method: "POST", 
-    headers: { "Content-Type": "application/json" }, 
-    body: JSON.stringify({ 
-      localTipo: "CONSULTÓRIO", 
-      localNumero: consultorio, 
-      paciente: nome 
-    }) 
-  }) 
-  .then(r => r.json()) 
-  .then(() => { 
-    alert("✅ " + nome + " foi chamado na TV para o Consultório " + consultorio + "!"); 
-  }); 
-} 
+            <div class="campo"> 
  
-function selecionar(index) { 
-  const t = triagensCarregadas[index]; 
-  document.getElementById("paciente").value = t.nome; 
-  document.getElementById("obs").value = t.observacao || ""; 
+                <label>🩺 Diagnóstico</label> 
  
-  if (t.alergia && t.alergia !== "Nenhuma") { 
-    alert("⚠️ Paciente possui alergia: " + t.alergia); 
-  } 
-} 
+                <input 
+                    type="text" 
+                    id="diagnostico" 
+                    placeholder="Digite o diagnóstico do paciente" 
+                > 
  
-function carregarMedicacoes() { 
-  fetch("/lista-medicacoes") 
-    .then(r => r.json()) 
-    .then(data => { 
-      const select = document.getElementById("medicacao"); 
-      select.innerHTML = `<option value="">Selecione a medicação</option>`; 
-      data.forEach(med => { 
-        const option = document.createElement("option"); 
-        option.value = med; 
-        option.textContent = med; 
-        select.appendChild(option); 
-      }); 
-    }); 
-} 
+            </div> 
  
-function salvar() { 
-  const paciente = document.getElementById("paciente").value; 
-  const diagnostico = document.getElementById("diagnostico").value; 
-  const medicacao = document.getElementById("medicacao").value; 
-  const obs = document.getElementById("obs").value; 
+            <div class="campo"> 
  
-  if (!paciente) { 
-    alert("Selecione um paciente clicando em Atender."); 
-    return; 
-  } 
-
-  if (!medicacao) { 
-    alert("Selecione uma medicação."); 
-    return; 
-  } 
+                <label>💊 Medicação</label> 
  
-  fetch("/consulta", { 
-    method: "POST", 
-    headers: { "Content-Type": "application/json" }, 
-    body: JSON.stringify({ paciente, diagnostico, medicacao, obs }) 
-  }) 
-  .then(r => r.json()) 
-  .then(() => { 
-    alert("Consulta salva"); 
-    document.getElementById("diagnostico").value = ""; 
-    document.getElementById("medicacao").value = ""; 
-    document.getElementById("obs").value = ""; 
-  }); 
-} 
+                <input 
+                    type="text" 
+                    id="medicacao" 
+                    placeholder="Digite a medicação prescrita" 
+                > 
  
-carregar(); 
-carregarMedicacoes(); 
+            </div> 
  
-setInterval(carregar, 10000); 
+            <div class="campo"> 
  
-</script> 
+                <label>📋 Orientações para o paciente</label> 
+ 
+                <textarea 
+                    id="orientacoes" 
+                    placeholder="Digite as orientações, cuidados, horários dos medicamentos e recomendações..."
+                ></textarea> 
+ 
+            </div> 
+ 
+            <div class="campo"> 
+ 
+                <label>📝 Observações</label> 
+ 
+                <textarea 
+                    id="observacoes" 
+                    placeholder="Digite outras informações importantes sobre a alta do paciente..."
+                ></textarea> 
+ 
+            </div> 
+ 
+            <div class="botoes"> 
+ 
+                <button 
+                    class="btn btn-pdf" 
+                    onclick="window.print()" 
+                > 
+                    ⬇️ Baixar PDF 
+                </button> 
+ 
+                <button 
+                    class="btn btn-voltar" 
+                    onclick="window.location.href='medico.html'" 
+                > 
+                    ← Voltar para o Painel Médico 
+                </button> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
  
 </body> 
+ 
 </html>
