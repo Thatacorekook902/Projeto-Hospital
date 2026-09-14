@@ -2,201 +2,531 @@
 <html>  
 <head>  
   <link rel="stylesheet" href="css/style.css">  
- 
-  <style>  
+  
+  <style>
 
-    /* ============================= */
-    /* TAMANHOS MAIORES - PAINEL MÉDICO */
-    /* ============================= */
+    /* =========================================
+       VISUAL GERAL - IGUAL À TELA DE ALTA
+       ========================================= */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+
+      background: linear-gradient(
+        135deg,
+        #e3f2fd,
+        #f3e5f5,
+        #ffebee
+      );
+
+      padding: 35px 20px;
+    }
+
+    /* PAINEL BRANCO PRINCIPAL */
 
     .container {
+      width: 100%;
+      max-width: 1200px;
+
+      margin: 0 auto;
+
+      background: white;
+
+      border-radius: 25px;
+
+      padding: 50px;
+
+      box-shadow: 0 10px 35px rgba(0,0,0,0.18);
+
       font-size: 20px;
     }
 
-    .container h2 {
-      font-size: 38px !important;
+
+    /* =========================================
+       CABEÇALHO
+       ========================================= */
+
+    .cabecalho-medico {
+      text-align: center;
+
+      background: linear-gradient(
+        135deg,
+        #7b1fa2,
+        #3949ab
+      );
+
+      color: white;
+
+      padding: 40px 30px;
+
+      border-radius: 22px;
+
+      margin-bottom: 35px;
+
+      box-shadow: 0 6px 18px rgba(63,81,181,0.25);
     }
 
-    .container h3 {
-      font-size: 30px !important;
+    .cabecalho-medico h2 {
+      font-size: 48px !important;
+
+      margin: 0 0 25px 0 !important;
+
+      letter-spacing: 1px;
     }
 
-    .container p {
-      font-size: 23px;
-      line-height: 1.5;
-    }
 
-    .card {
-      padding: 25px !important;
-      margin-bottom: 25px !important;
-      border-radius: 15px !important;
-    }
+    /* =========================================
+       BOTÃO ABRIR TV
+       ========================================= */
 
-    .card h3 {
-      font-size: 32px !important;
-      margin-bottom: 15px;
-    }
+    .btn-abrir-tv {
 
-    .card p {
-      font-size: 23px !important;
-      margin: 10px 0 !important;
-      line-height: 1.5;
-    }
+      background: #17a2b8;
 
-    .card button {
-      font-size: 21px !important;
-      padding: 14px 22px !important;
-      border-radius: 10px !important;
-    }
+      color: white;
 
-    /* ============================= */
-    /* BOTÃO TV */
-    /* ============================= */
+      border: none;
 
-    .btn-tv {  
-      background: #28a745;  
-      color: white;  
-      border: none;  
-      padding: 14px 22px;  
-      border-radius: 10px;  
-      cursor: pointer;  
-      font-size: 21px;  
+      padding: 17px 28px;
+
+      border-radius: 12px;
+
+      font-size: 22px;
+
       font-weight: bold;
-      margin-top: 8px;  
-    }  
- 
-    .btn-tv:hover {  
-      background: #1e7e34;  
-    }  
- 
-    /* ============================= */
-    /* BOTÃO ABRIR TV */
-    /* ============================= */
 
-    .btn-abrir-tv {  
-      background: #17a2b8;  
-      color: white;  
-      border: none;  
-      padding: 15px 22px;  
-      border-radius: 10px;  
-      font-size: 20px;  
+      cursor: pointer;
+
+      margin: 5px;
+    }
+
+    .btn-abrir-tv:hover {
+      background: #117a8b;
+    }
+
+
+    /* =========================================
+       BOTÃO ALTA
+       ========================================= */
+
+    .btn-alta {
+
+      background: #8e24aa;
+
+      color: white;
+
+      border: none;
+
+      padding: 17px 28px;
+
+      border-radius: 12px;
+
+      font-size: 22px;
+
       font-weight: bold;
-      cursor: pointer;  
-    }  
- 
-    .btn-abrir-tv:hover {  
-      background: #117a8b;  
-    }  
- 
-    /* ============================= */
-    /* BOTÃO ALTA DO PACIENTE */
-    /* ============================= */
 
-    .btn-alta {  
-      background: #8e24aa;  
-      color: white;  
-      border: none;  
-      padding: 15px 22px;  
-      border-radius: 10px;  
-      font-size: 20px;  
-      font-weight: bold;  
-      cursor: pointer;  
-      margin-left: 10px; 
-    } 
- 
-    .btn-alta:hover {  
-      background: #6a1b7b;  
-    } 
- 
-    /* ============================= */
-    /* CONSULTÓRIO */
-    /* ============================= */
+      cursor: pointer;
 
-    .consultorio-input {  
-      display: flex;  
-      align-items: center;  
-      gap: 15px;  
-      margin-bottom: 25px;  
-      background: #f0f4ff;  
-      padding: 18px 20px;  
-      border-radius: 10px;  
-      border: 1px solid #d0d8f0;  
-    }  
- 
-    .consultorio-input label {  
+      margin: 5px;
+    }
+
+    .btn-alta:hover {
+      background: #6a1b7b;
+    }
+
+
+    /* =========================================
+       ÁREA DO CONSULTÓRIO
+       ========================================= */
+
+    .consultorio-input {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 18px;
+
+      margin-bottom: 35px;
+
+      background: #f0f4ff;
+
+      padding: 22px;
+
+      border-radius: 14px;
+
+      border: 2px solid #d0d8f0;
+
+      flex-wrap: wrap;
+    }
+
+    .consultorio-input label {
+
       font-weight: bold;
-      font-size: 23px;
-    }  
- 
-    .consultorio-input input {  
-      width: 80px;  
-      height: 55px;
-      text-align: center;  
-      font-size: 23px;  
-      font-weight: bold;  
-      padding: 8px;  
-      border: 1px solid #ccc;  
-      border-radius: 8px;  
+
+      font-size: 25px;
+    }
+
+    .consultorio-input input {
+
+      width: 90px;
+
+      height: 60px;
+
+      text-align: center;
+
+      font-size: 25px;
+
+      font-weight: bold;
+
+      padding: 8px;
+
+      border: 2px solid #ccc;
+
+      border-radius: 10px;
     }
 
     .consultorio-input span {
+
+      color: #666;
+
       font-size: 18px !important;
+
+      line-height: 1.5;
     }
 
-    /* ============================= */
-    /* ÁREA DE CONSULTA */
-    /* ============================= */
+
+    /* =========================================
+       LISTA DE PACIENTES
+       ========================================= */
+
+    #triagens {
+      width: 100%;
+    }
+
+
+    /* CARTÃO DO PACIENTE */
+
+    .card {
+
+      background: #fafbff;
+
+      border: 2px solid #d0d8f0;
+
+      border-radius: 18px;
+
+      padding: 30px !important;
+
+      margin-bottom: 30px !important;
+
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+
+      transition: 0.2s;
+    }
+
+    .card:hover {
+
+      transform: translateY(-2px);
+
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+
+    /* NOME DO PACIENTE */
+
+    .card h3 {
+
+      font-size: 34px !important;
+
+      text-align: center;
+
+      color: #7b1fa2;
+
+      margin: 0 0 25px 0 !important;
+
+      padding-bottom: 15px;
+
+      border-bottom: 2px solid #e0e4f5;
+    }
+
+
+    /* INFORMAÇÕES */
+
+    .card p {
+
+      font-size: 24px !important;
+
+      line-height: 1.6;
+
+      margin: 12px 0 !important;
+
+      color: #222;
+    }
+
+    .card p b {
+
+      font-weight: bold;
+
+      color: #333;
+    }
+
+
+    /* =========================================
+       BOTÕES DENTRO DOS PACIENTES
+       ========================================= */
+
+    .card button {
+
+      font-size: 22px !important;
+
+      font-weight: bold;
+
+      padding: 16px 28px !important;
+
+      border-radius: 12px !important;
+
+      cursor: pointer;
+    }
+
+
+    /* BOTÃO CHAMAR TV */
+
+    .btn-tv {
+
+      background: #28a745;
+
+      color: white;
+
+      border: none;
+
+      padding: 16px 28px;
+
+      border-radius: 12px;
+
+      cursor: pointer;
+
+      font-size: 22px;
+
+      font-weight: bold;
+
+      margin-top: 8px;
+    }
+
+    .btn-tv:hover {
+      background: #1e7e34;
+    }
+
+
+    /* =========================================
+       ÁREA DE CONSULTA
+       ========================================= */
+
+    .container > h3 {
+
+      font-size: 34px !important;
+
+      color: #7b1fa2;
+
+      margin-top: 40px;
+
+      margin-bottom: 25px;
+
+      text-align: center;
+    }
+
+
+    /* CAMPOS */
 
     #paciente,
     #diagnostico,
     #medicacao,
     #obs {
-      font-size: 22px !important;
-      padding: 16px !important;
-      min-height: 58px;
-      border-radius: 10px;
+
+      width: 100%;
+
+      padding: 20px 22px !important;
+
+      font-size: 24px !important;
+
+      border: 2px solid #c9d2ed;
+
+      border-radius: 14px;
+
+      outline: none;
+
+      background: #fafbff;
+
+      color: #222;
+
+      margin-bottom: 22px;
     }
+
+
+    #paciente,
+    #diagnostico,
+    #medicacao {
+
+      min-height: 68px;
+    }
+
 
     #obs {
-      min-height: 140px;
+
+      min-height: 190px;
+
+      resize: vertical;
+
+      line-height: 1.5;
     }
+
+
+    #paciente:focus,
+    #diagnostico:focus,
+    #medicacao:focus,
+    #obs:focus {
+
+      border-color: #7b1fa2;
+
+      background: white;
+
+      box-shadow: 0 0 0 4px rgba(123,31,162,0.10);
+    }
+
+
+    /* PLACEHOLDER */
+
+    #paciente::placeholder,
+    #diagnostico::placeholder,
+    #obs::placeholder {
+
+      color: #888;
+
+      font-size: 21px;
+    }
+
+
+    /* =========================================
+       BOTÃO SALVAR
+       ========================================= */
 
     .container > button {
-      font-size: 22px !important;
-      padding: 15px 30px !important;
-      border-radius: 10px !important;
+
+      display: block;
+
+      width: 100%;
+
+      padding: 20px 30px !important;
+
+      font-size: 25px !important;
+
+      font-weight: bold;
+
+      color: white;
+
+      background: linear-gradient(
+        135deg,
+        #7b1fa2,
+        #3949ab
+      );
+
+      border: none;
+
+      border-radius: 14px;
+
+      cursor: pointer;
+
+      margin-top: 10px;
+
+      box-shadow: 0 5px 12px rgba(63,81,181,0.25);
     }
 
-    /* ============================= */
-    /* RESPONSIVO */
-    /* ============================= */
+    .container > button:hover {
+
+      opacity: 0.9;
+
+      transform: translateY(-2px);
+    }
+
+
+    /* =========================================
+       LINHA
+       ========================================= */
+
+    hr {
+
+      border: none;
+
+      height: 2px;
+
+      background: #e0e4f5;
+
+      margin: 40px 0;
+    }
+
+
+    /* =========================================
+       RESPONSIVO
+       ========================================= */
 
     @media (max-width: 700px) {
 
-      .container h2 {
-        font-size: 30px !important;
+      body {
+
+        padding: 15px 10px;
       }
 
-      .container h3 {
-        font-size: 26px !important;
+      .container {
+
+        padding: 25px 18px;
+
+        border-radius: 18px;
       }
 
-      .card h3 {
-        font-size: 28px !important;
+      .cabecalho-medico {
+
+        padding: 30px 15px;
       }
 
-      .card p {
-        font-size: 20px !important;
+      .cabecalho-medico h2 {
+
+        font-size: 36px !important;
       }
 
       .btn-abrir-tv,
       .btn-alta {
-        font-size: 17px;
-        padding: 12px 15px;
+
+        font-size: 18px;
+
+        padding: 14px 18px;
       }
 
-      .consultorio-input {
-        flex-wrap: wrap;
+      .card {
+
+        padding: 22px !important;
+      }
+
+      .card h3 {
+
+        font-size: 28px !important;
+      }
+
+      .card p {
+
+        font-size: 20px !important;
+      }
+
+      #paciente,
+      #diagnostico,
+      #medicacao,
+      #obs {
+
+        font-size: 20px !important;
       }
 
     }
@@ -208,49 +538,85 @@
   
 <div class="container">  
   
-  <!-- Cabeçalho com botões -->  
-  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">  
- 
-    <h2 style="margin:0;">🩺 Painel Médico</h2>  
- 
-    <div> 
+  <!-- CABEÇALHO -->  
+
+  <div class="cabecalho-medico">
+
+    <h2>🩺 Painel Médico</h2>
+
+    <div>
+
       <button class="btn-abrir-tv" onclick="window.open('tv.html','_blank')"> 
         📺 Abrir Tela da TV 
       </button> 
  
-      <!-- BOTÃO NOVO --> 
       <button class="btn-alta" onclick="window.location.href='alta.html'"> 
         🏥 Alta do Paciente 
-      </button> 
-    </div> 
- 
-  </div>  
+      </button>
+
+    </div>
+
+  </div>
   
-  <!-- Campo criado para informar o consultório e chamar o paciente na TV -->  
+  
+  <!-- CONSULTÓRIO -->  
+
   <div class="consultorio-input">  
+
     <label>Meu Consultório:</label>  
-    <input type="text" id="consultorio-num" value="01">  
-    <span style="color:#666; font-size:13px;"> 
+
+    <input 
+      type="text" 
+      id="consultorio-num" 
+      value="01"
+    >  
+
+    <span> 
       Este número será exibido na TV ao chamar o paciente. 
     </span>  
+
   </div>  
   
+  
+  <!-- PACIENTES -->  
+
   <div id="triagens"></div>  
+  
   
   <hr>  
   
+  
+  <!-- CONSULTA -->  
+
   <h3>Consulta</h3>  
   
-  <input id="paciente" placeholder="Paciente" readonly>  
-  <input id="diagnostico" placeholder="Diagnóstico">  
+  <input 
+    id="paciente" 
+    placeholder="Paciente" 
+    readonly
+  >  
+
+  <input 
+    id="diagnostico" 
+    placeholder="Diagnóstico"
+  >  
   
   <select id="medicacao">  
-    <option value="">Selecione a medicação</option>  
+
+    <option value="">
+      Selecione a medicação
+    </option>
+
   </select>  
   
-  <textarea id="obs" placeholder="Observações"></textarea>  
+  <textarea 
+    id="obs" 
+    placeholder="Observações"
+  ></textarea>  
   
-  <button onclick="salvar()">Salvar</button>  
+  <button onclick="salvar()">
+    💾 Salvar Consulta
+  </button>  
   
 </div>  
   
@@ -268,7 +634,7 @@ function carregar() {
       div.innerHTML = "";  
   
       if (data.length === 0) {  
-        div.innerHTML = "<p style='color:#888; text-align:center;'>Nenhum paciente na fila.</p>";  
+        div.innerHTML = "<p style='color:#888; text-align:center; font-size:22px;'>Nenhum paciente na fila.</p>";  
         return;  
       }  
   
@@ -281,7 +647,7 @@ function carregar() {
             <p><span class="${t.risco}">${t.risco}</span></p>  
             <p><b>Alergia:</b> ${t.alergia || "Nenhuma"}</p>  
             <p><b>Observação:</b> ${t.observacao || "Nenhuma"}</p>  
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">  
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:20px;">  
               <button onclick="selecionar(${index})">Atender</button>  
               <button class="btn-tv" onclick="chamarNaTV('${t.nome}')"> 
                 📺 Chamar na TV 
