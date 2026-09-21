@@ -1,10 +1,674 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Internação do Paciente</title>
-</head>
-<body>
+<!DOCTYPE html> 
+<html lang="pt-BR"> 
+<head> 
+  <meta charset="UTF-8"> 
+  <title>Internação do Paciente</title> 
 
-</body>
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 30px 20px;
+
+      background: linear-gradient(
+        135deg,
+        #e3f2fd,
+        #f3e5f5,
+        #ffebee
+      );
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+
+      background: white;
+      border-radius: 25px;
+      padding: 40px;
+
+      box-shadow: 0 10px 35px rgba(0,0,0,0.18);
+    }
+
+    /* CABEÇALHO */
+
+    .cabecalho {
+      background: linear-gradient(
+        135deg,
+        #7b1fa2,
+        #3949ab
+      );
+
+      color: white;
+      padding: 35px;
+      border-radius: 22px;
+
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .cabecalho h1 {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+
+    .cabecalho p {
+      font-size: 20px;
+    }
+
+    /* BOTÃO VOLTAR */
+
+    .btn-voltar {
+      background: #3949ab;
+      color: white;
+
+      border: none;
+      border-radius: 12px;
+
+      padding: 14px 25px;
+
+      font-size: 18px;
+      font-weight: bold;
+
+      cursor: pointer;
+      margin-bottom: 30px;
+    }
+
+    .btn-voltar:hover {
+      background: #283593;
+    }
+
+    /* TÍTULOS */
+
+    .titulo {
+      color: #7b1fa2;
+      font-size: 30px;
+      margin-bottom: 25px;
+    }
+
+    /* FORMULÁRIO */
+
+    .formulario {
+      background: #f8f9ff;
+
+      border: 2px solid #d8ddf0;
+      border-radius: 18px;
+
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+
+    .campos {
+      display: grid;
+
+      grid-template-columns: repeat(2, 1fr);
+
+      gap: 20px;
+    }
+
+    .campo {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .campo label {
+      font-size: 18px;
+      font-weight: bold;
+
+      color: #333;
+
+      margin-bottom: 8px;
+    }
+
+    .campo input,
+    .campo select,
+    .campo textarea {
+      width: 100%;
+
+      padding: 15px;
+
+      border: 2px solid #cbd2eb;
+      border-radius: 10px;
+
+      font-size: 18px;
+
+      outline: none;
+
+      background: white;
+    }
+
+    .campo input:focus,
+    .campo select:focus,
+    .campo textarea:focus {
+      border-color: #7b1fa2;
+      box-shadow: 0 0 0 3px rgba(123,31,162,0.10);
+    }
+
+    .campo textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .campo-completo {
+      grid-column: 1 / -1;
+    }
+
+    /* BOTÃO INTERNAR */
+
+    .btn-internar {
+      width: 100%;
+
+      margin-top: 25px;
+
+      padding: 18px;
+
+      border: none;
+      border-radius: 12px;
+
+      background: linear-gradient(
+        135deg,
+        #7b1fa2,
+        #3949ab
+      );
+
+      color: white;
+
+      font-size: 22px;
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    .btn-internar:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* LISTA DE INTERNADOS */
+
+    .lista {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .card {
+      background: #fafbff;
+
+      border: 2px solid #d0d8f0;
+      border-radius: 18px;
+
+      padding: 25px;
+
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      color: #7b1fa2;
+
+      font-size: 28px;
+
+      margin-bottom: 18px;
+
+      border-bottom: 2px solid #e0e4f5;
+
+      padding-bottom: 12px;
+    }
+
+    .informacoes {
+      display: grid;
+
+      grid-template-columns: repeat(2, 1fr);
+
+      gap: 12px;
+
+      margin-bottom: 20px;
+    }
+
+    .informacoes p {
+      font-size: 18px;
+      color: #333;
+    }
+
+    .informacoes b {
+      color: #555;
+    }
+
+    /* BOTÃO DAR ALTA */
+
+    .btn-alta {
+      width: 100%;
+
+      padding: 15px;
+
+      border: none;
+      border-radius: 12px;
+
+      background: #d32f2f;
+
+      color: white;
+
+      font-size: 19px;
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    .btn-alta:hover {
+      background: #b71c1c;
+    }
+
+    /* SEM PACIENTES */
+
+    .nenhum {
+      text-align: center;
+
+      padding: 35px;
+
+      background: #f8f9ff;
+
+      border: 2px dashed #c9d2ed;
+
+      border-radius: 15px;
+
+      color: #777;
+
+      font-size: 20px;
+    }
+
+    /* RESPONSIVO */
+
+    @media (max-width: 700px) {
+
+      body {
+        padding: 15px 10px;
+      }
+
+      .container {
+        padding: 20px;
+      }
+
+      .cabecalho {
+        padding: 25px 15px;
+      }
+
+      .cabecalho h1 {
+        font-size: 32px;
+      }
+
+      .campos,
+      .informacoes {
+        grid-template-columns: 1fr;
+      }
+
+      .formulario {
+        padding: 20px;
+      }
+
+      .titulo {
+        font-size: 25px;
+      }
+
+    }
+
+  </style> 
+</head> 
+
+<body> 
+
+<div class="container">
+
+  <div class="cabecalho">
+
+    <h1>Internação do Paciente</h1>
+
+    <p>Controle de pacientes internados</p>
+
+  </div>
+
+  <button
+    class="btn-voltar"
+    onclick="window.location.href='medico.html'">
+
+    ← Voltar para o Painel Médico
+
+  </button>
+
+
+  <!-- NOVA INTERNAÇÃO -->
+
+  <div class="formulario">
+
+    <h2 class="titulo">
+      Nova Internação
+    </h2>
+
+    <div class="campos">
+
+      <div class="campo">
+        <label>Nome do Paciente</label>
+
+        <input
+          type="text"
+          id="nome"
+          placeholder="Digite o nome do paciente">
+      </div>
+
+
+      <div class="campo">
+        <label>Quarto / Leito</label>
+
+        <input
+          type="text"
+          id="quarto"
+          placeholder="Ex.: Quarto 03 - Leito 02">
+      </div>
+
+
+      <div class="campo">
+        <label>Data de Entrada</label>
+
+        <input
+          type="date"
+          id="dataEntrada">
+      </div>
+
+
+      <div class="campo">
+        <label>Tipo de Internação</label>
+
+        <select id="tipo">
+
+          <option value="">
+            Selecione
+          </option>
+
+          <option>
+            Clínica
+          </option>
+
+          <option>
+            Cirúrgica
+          </option>
+
+          <option>
+            Observação
+          </option>
+
+          <option>
+            Pediátrica
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="campo campo-completo">
+
+        <label>Motivo da Internação</label>
+
+        <textarea
+          id="motivo"
+          placeholder="Digite o motivo da internação">
+        </textarea>
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="btn-internar"
+      onclick="internarPaciente()">
+
+      Internar Paciente
+
+    </button>
+
+  </div>
+
+
+  <!-- PACIENTES INTERNADOS -->
+
+  <h2 class="titulo">
+    Pacientes Internados
+  </h2>
+
+  <div
+    class="lista"
+    id="listaInternados">
+
+  </div>
+
+</div>
+
+
+<script>
+
+  let internados =
+    JSON.parse(localStorage.getItem("pacientesInternados")) || [];
+
+
+  function salvarInternados() {
+
+    localStorage.setItem(
+      "pacientesInternados",
+      JSON.stringify(internados)
+    );
+
+  }
+
+
+  function internarPaciente() {
+
+    const nome =
+      document.getElementById("nome").value.trim();
+
+    const quarto =
+      document.getElementById("quarto").value.trim();
+
+    const dataEntrada =
+      document.getElementById("dataEntrada").value;
+
+    const tipo =
+      document.getElementById("tipo").value;
+
+    const motivo =
+      document.getElementById("motivo").value.trim();
+
+
+    if (!nome) {
+
+      alert("Digite o nome do paciente.");
+      return;
+
+    }
+
+
+    if (!quarto) {
+
+      alert("Informe o quarto ou leito.");
+      return;
+
+    }
+
+
+    if (!dataEntrada) {
+
+      alert("Informe a data de entrada.");
+      return;
+
+    }
+
+
+    const paciente = {
+
+      id: Date.now(),
+
+      nome: nome,
+
+      quarto: quarto,
+
+      dataEntrada: dataEntrada,
+
+      tipo: tipo || "Não informado",
+
+      motivo: motivo || "Não informado"
+
+    };
+
+
+    internados.push(paciente);
+
+    salvarInternados();
+
+    limparFormulario();
+
+    mostrarInternados();
+
+    alert("Paciente internado com sucesso!");
+
+  }
+
+
+  function tirarDaInternacao(id) {
+
+    const paciente =
+      internados.find(p => p.id === id);
+
+
+    if (!paciente) return;
+
+
+    const confirmar =
+      confirm(
+        "Deseja realmente tirar " +
+        paciente.nome +
+        " da internação e dar alta?"
+      );
+
+
+    if (!confirmar) return;
+
+
+    internados =
+      internados.filter(p => p.id !== id);
+
+
+    salvarInternados();
+
+    mostrarInternados();
+
+    alert("Paciente recebeu alta e foi retirado da internação.");
+
+  }
+
+
+  function mostrarInternados() {
+
+    const lista =
+      document.getElementById("listaInternados");
+
+
+    lista.innerHTML = "";
+
+
+    if (internados.length === 0) {
+
+      lista.innerHTML = `
+
+        <div class="nenhum">
+
+          Nenhum paciente internado no momento.
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    internados.forEach(paciente => {
+
+      lista.innerHTML += `
+
+        <div class="card">
+
+          <h3>
+            ${paciente.nome}
+          </h3>
+
+
+          <div class="informacoes">
+
+            <p>
+              <b>Quarto / Leito:</b>
+              ${paciente.quarto}
+            </p>
+
+            <p>
+              <b>Data de Entrada:</b>
+              ${paciente.dataEntrada}
+            </p>
+
+            <p>
+              <b>Tipo:</b>
+              ${paciente.tipo}
+            </p>
+
+            <p>
+              <b>Motivo:</b>
+              ${paciente.motivo}
+            </p>
+
+          </div>
+
+
+          <button
+            class="btn-alta"
+            onclick="tirarDaInternacao(${paciente.id})">
+
+            Tirar da Internação / Dar Alta
+
+          </button>
+
+        </div>
+
+      `;
+
+    });
+
+  }
+
+
+  function limparFormulario() {
+
+    document.getElementById("nome").value = "";
+
+    document.getElementById("quarto").value = "";
+
+    document.getElementById("dataEntrada").value = "";
+
+    document.getElementById("tipo").value = "";
+
+    document.getElementById("motivo").value = "";
+
+  }
+
+
+  mostrarInternados();
+
+</script>
+
+</body> 
 </html>
